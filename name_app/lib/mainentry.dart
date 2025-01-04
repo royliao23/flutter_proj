@@ -55,4 +55,19 @@ class MyAppState extends ChangeNotifier {
     favorites.remove(pair);
     notifyListeners(); // Notify UI to rebuild
   }
+
+  
+  void updateFavorite(WordPair oldPair, String newValue) {
+    int index = favorites.indexOf(oldPair);
+    if (index != -1) {
+      // Split newValue into two words
+      var words = newValue.split(' ');
+      String first = words.isNotEmpty ? words[0] : oldPair.first; // First word
+      String second = words.length > 1 ? words[1] : oldPair.second; // Second word
+
+      // Update the WordPair
+      favorites[index] = WordPair(first, second);
+      notifyListeners(); // Notify UI to rebuild
+    }
+  }
 }

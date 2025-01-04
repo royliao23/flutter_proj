@@ -64,11 +64,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             for (var pair in column)
                               ListTile(
                                 leading: Icon(Icons.favorite),
-                                title: Text(pair.asLowerCase),
+                                title: GestureDetector(
+                                  onTap: () {
+                                    _showEditModal(context, appState, pair);
+                                  },
+                                  child: Text(pair.asLowerCase),
+                                ),
                                 trailing: IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
-                                    // Remove the item and update the UI
                                     setState(() {
                                       appState.removeFavorite(pair);
                                     });
@@ -116,6 +120,43 @@ class _FavoritesPageState extends State<FavoritesPage> {
             ),
           ),
       ],
+    );
+  }
+
+  void _showEditModal(BuildContext context, MyAppState appState, WordPair pair) {
+    TextEditingController controller = TextEditingController(
+      text: pair.asLowerCase,
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Favorite'),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: 'New Value'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the modal
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Update the value
+                setState(() {
+                  appState.updateFavorite(pair, controller.text);
+                });
+                Navigator.of(context).pop(); // Close the modal
+              },
+              child: Text('Update'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
