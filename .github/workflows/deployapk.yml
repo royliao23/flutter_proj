@@ -8,9 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     defaults:
       run:
-        working-directory: ./name_app  # Adjust if needed
+        working-directory: ./name_app  # Replace with your project directory if needed
 
     steps:
       - name: Checkout code
@@ -19,10 +20,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0' # Adjust if needed
-
-      - name: Enable Flutter web
-        run: flutter config --enable-web
+          flutter-version: '3.29.0' # Use a Flutter version that includes Dart 3.1.1 or higher
 
       - name: Install dependencies
         run: flutter pub get
@@ -35,12 +33,3 @@ jobs:
         with:
           name: app-release.apk
           path: name_app/build/app/outputs/flutter-apk/app-release.apk
-
-      - name: Build Flutter Web
-        run: flutter build web
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: name_app/build/web
