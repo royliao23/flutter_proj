@@ -44,5 +44,5 @@ jobs:
         with:
           branch: gh-pages
           folder: name_app/build/web
-          token: ${{ secrets.GITHUB_TOKEN }}
+       
 
